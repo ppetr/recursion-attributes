@@ -59,11 +59,11 @@ avg' = (/) <$> sum' <*> count'
 -- since we have to build a lazily evaluated function, unevaluated thunks of
 -- the size of the tree are created anyway.
 stddev2 :: (Fractional n) => CataBase (BinTree n) n
-stddev2 = f <$> mkCata diff' <*> sum' <*> count'
+stddev2 = f <$> mkCata1 diff' <*> sum' <*> count'
   where
     f d s c = (d (s / c)) / (c - 1)
-    diff' LeafT         _ = 0
-    diff' (NodeT l x r) a = l a + (x - a)^2 + r a
+    diff' a LeafT         = 0
+    diff' a (NodeT l x r) = l + (x - a)^2 + r
 
 
 -- Anamorphism that constructs Stern-Brocot tree of rational numbers of up to a

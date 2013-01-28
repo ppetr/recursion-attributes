@@ -1,10 +1,13 @@
-{-# LANGUAGE BangPatterns, GADTs, TypeFamilies #-}
+{-# LANGUAGE GADTs, TypeFamilies #-}
 module Data.Functor.Foldable.Attributes
     ( Cata(..)
     , CataBase
     , runCata
     , runHylo
     , mkCata
+    , mkCata1
+    , mkCata2
+    , mkCata3
     ) where
 import Control.Applicative
 import Data.Bifunctor
@@ -41,6 +44,21 @@ instance Functor f => Applicative (Cata f) where
 -- | Creates an instance of @Cata@.
 mkCata :: (Functor f) => (f r -> r) -> Cata f r
 mkCata f = Cata f id
+
+-- | Creates an instance of @Cata@ that uses an additional argument propagated
+-- down the stucture.
+mkCata1 :: (Functor f) => (a -> f r -> r) -> Cata f (a -> r)
+mkCata1 f = mkCata $ \r x -> f x (fmap (\f -> f x) r)
+
+-- | Creates an instance of @Cata@ that uses additional arguments propagated
+-- down the stucture.
+mkCata2 :: (Functor f) => (a -> b -> f r -> r) -> Cata f (a -> b -> r)
+mkCata2 f = mkCata $ \r x y -> f x y (fmap (\f -> f x y) r)
+
+-- | Creates an instance of @Cata@ that uses additional arguments propagated
+-- down the stucture.
+mkCata3 :: (Functor f) => (a -> b -> c -> f r -> r) -> Cata f (a -> b -> c -> r)
+mkCata3 f = mkCata $ \r x y z -> f x y z (fmap (\f -> f x y z) r)
 
 -- | Creates a products of two catamorphisms.
 cataProd :: (Functor f)
