@@ -1,0 +1,39 @@
+Name:                recursion-attributes
+Version:             0.1
+Synopsis:
+    Composition of catamorphisms in the sense of attribute grammars.
+Description:
+    By viewing catamorphisms as arrows or applicative functors, we provide
+    combinators for combining catamorphism into complex ones. The resulting
+    catamorphisms always traverse a given structure only once.
+Category:            Data Structures, Recursion
+License:             BSD3
+License-file:        LICENSE
+Author:              Petr Pudlák
+Copyright:           (c) 2013 Petr Pudlák
+Maintainer:          Petr Pudlák <petr.mvd@gmail.com>
+Build-Type:          Simple
+Cabal-Version:       >=1.10
+Stability:           Experimental
+Homepage:            https://github.com/ppetr/recursion-attributes
+Bug-reports:         https://github.com/ppetr/recursion-attributes/issues
+Extra-Source-Files:  README.md, LICENSE
+
+Source-repository head
+  type:     git
+  location: git://github.com/ppetr/recursion-attributes.git
+
+Library
+    Build-Depends:      base == 4.*, recursion-schemes == 3.*
+    --, containers >= 0.4, mtl >= 2
+    Exposed-Modules:    Data.Functor.Foldable.Attributes
+    --hs-source-dirs:     src
+    Default-Extensions: TypeFamilies, GADTs
+    Default-Language:   Haskell98
+
+-- Test-Suite basic-test
+--     Type:               exitcode-stdio-1.0
+--     Main-Is:            BasicTests.hs
+--     Build-Depends:      base == 4.*, containers >= 0.4 , recursion-attributes == 0.3
+--     hs-source-dirs:     src-test
+--     Default-Language:   Haskell98
